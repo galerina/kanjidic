@@ -1,0 +1,41 @@
+<JMdict>
+<entry>
+<ent_seq>1000040</ent_seq>
+<k_ele>
+<keb>〃</keb>
+</k_ele>
+<r_ele>
+<reb>おなじ</reb>
+</r_ele>
+<r_ele>
+<reb>おなじく</reb>
+</r_ele>
+<sense>
+<pos></pos>
+<gloss>ditto mark</gloss>
+</sense>
+</entry>
+<entry>
+<ent_seq>1000050</ent_seq>
+<k_ele>
+<keb>仝</keb>
+</k_ele>
+<r_ele>
+<reb>どうじょう</reb>
+</r_ele>
+<sense>
+<pos>n;</pos>
+<gloss>"as above" mark</gloss>
+</sense>
+</entry>
+<entry>
+<ent_seq>1000050</ent_seq>
+<r_ele>
+<reb>どうじょう</reb>
+</r_ele>
+<sense>
+<pos>n;</pos>
+<gloss>"as above" mark</gloss>
+</sense>
+</entry>
+</JMdict>
