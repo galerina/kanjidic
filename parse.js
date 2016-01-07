@@ -22,11 +22,13 @@ var merge = _.after(2, function() {
     var contents = fs.readFileSync(undefRadicalsFile);
     var undefinedRadicals = JSON.parse(contents);
     var index = {};
+    index["radicalTable"] = {};
+    index["meaningTable"] = {};
     for (var i = 0; i < entries.length; i++) {
         if (_.has(radicalEntries, entries[i].kanji)) {
             var radicals = radicalEntries[entries[i].kanji];
             entries[i]["radicals"] = radicals;
-            entries[i]["meanings"] = _.uniq(entries[i]["meanings"].concat(
+            entries[i]["radicalMeanings"] = _.uniq(entries[i]["meanings"].concat(
                 _.flatten(_.compact(
                 radicals.map(function(elem) {
                 var radicalDictEntry = undefined;
@@ -44,27 +46,43 @@ var merge = _.after(2, function() {
             })))));
 
             entries[i]["radicals"].forEach(function(rad) {
-                if (!_.has(index, rad)) {
-                    index[rad] = [];
+                if (!_.has(index["radicalTable"], rad)) {
+                    index["radicalTable"][rad] = [];
                 }
 
-                index[rad].push(entries[i].kanji);
+                index["radicalTable"][rad].push(entries[i].kanji);
+            });
+
+            entries[i]["radicalMeanings"].forEach(function(meaning) {
+                if (!_.has(index["radicalTable"], meaning)) {
+                    index["radicalTable"][meaning] = [];
+                }
+
+                index["radicalTable"][meaning].push(entries[i].kanji);
             });
 
             entries[i]["meanings"].forEach(function(meaning) {
-                if (!_.has(index, meaning)) {
-                    index[meaning] = [];
+                if (!_.has(index["meaningTable"], meaning)) {
+                    index["meaningTable"][meaning] = [];
                 }
 
-                index[meaning].push(entries[i].kanji);
+                index["meaningTable"][meaning].push(entries[i].kanji);
             });
         }
     }
 
     var kanji = {};
     entries.forEach(function(e) {
-        kanji[e.kanji] = e.meanings[0];
-    })
+        kanji[e.kanji] = { "meaning" : e.meanings[0], "radical" : e.radicals};
+    });
+
+    ["radicalTable", "meaningTable"].forEach(function(tableName) {
+        for (var key in index[tableName]) {
+            if (index[tableName].hasOwnProperty(key)) {
+                index[tableName][key].sort();
+            }
+        }
+    });
 
     // FINAL OUTPUT
     var kanjiFile = "kanji-new-format.json";
